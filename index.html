@@ -228,44 +228,47 @@
 
   <!-- ── 은행 앱 바로가기 ── -->
   <div class="card">
-    <div class="card-title">은행 앱 바로가기</div>
+    <div class="card-title">은행 앱으로 바로 이체</div>
     <div class="bank-grid">
-      <a class="bank-btn" href="kakaopay://pay" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.kakao.talk')">
-        <span class="icon">💛</span>
-        <span class="name">카카오페이</span>
-      </a>
-      <a class="bank-btn" href="supertoss://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=viva.republica.toss')">
+      <!-- 토스: 계좌번호 미리 입력된 송금 화면으로 이동 (bankCode 090 = 카카오뱅크) -->
+      <button class="bank-btn" onclick="openApp('supertoss://send?bankCode=090&accountNo=3333368270469', 'https://play.google.com/store/apps/details?id=viva.republica.toss', 'https://apps.apple.com/kr/app/id839333328')">
         <span class="icon">💙</span>
         <span class="name">토스</span>
-      </a>
-      <a class="bank-btn" href="naversearchapp://pay" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.nhn.android.search')">
+      </button>
+      <!-- 카카오페이: 송금 탭으로 이동 -->
+      <button class="bank-btn" onclick="openApp('kakaopay://transfer', 'https://play.google.com/store/apps/details?id=com.kakao.talk', 'https://apps.apple.com/kr/app/id362057947')">
+        <span class="icon">💛</span>
+        <span class="name">카카오페이</span>
+      </button>
+      <!-- 네이버페이 -->
+      <button class="bank-btn" onclick="openApp('naversearchapp://pay', 'https://play.google.com/store/apps/details?id=com.nhn.android.search', 'https://apps.apple.com/kr/app/id393499958')">
         <span class="icon">💚</span>
         <span class="name">네이버페이</span>
-      </a>
-      <a class="bank-btn" href="shinhan-sr-ansimclick://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.shinhan.sbanking')">
+      </button>
+      <button class="bank-btn" onclick="openApp('shinhan-sr-ansimclick://', 'https://play.google.com/store/apps/details?id=com.shinhan.sbanking', 'https://apps.apple.com/kr/app/id357484510')">
         <span class="icon">🏦</span>
         <span class="name">신한은행</span>
-      </a>
-      <a class="bank-btn" href="kb-starbanking://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.kbstar.kbbank')">
+      </button>
+      <button class="bank-btn" onclick="openApp('kb-starbanking://', 'https://play.google.com/store/apps/details?id=com.kbstar.kbbank', 'https://apps.apple.com/kr/app/id373742138')">
         <span class="icon">🏦</span>
         <span class="name">국민은행</span>
-      </a>
-      <a class="bank-btn" href="nhallonebanking://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=nh.smart.banking')">
+      </button>
+      <button class="bank-btn" onclick="openApp('nhallonebanking://', 'https://play.google.com/store/apps/details?id=nh.smart.banking', 'https://apps.apple.com/kr/app/id1177889076')">
         <span class="icon">🏦</span>
         <span class="name">농협은행</span>
-      </a>
-      <a class="bank-btn" href="wooribank://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.wooribank.smart.won')">
+      </button>
+      <button class="bank-btn" onclick="openApp('wooribank://', 'https://play.google.com/store/apps/details?id=com.wooribank.smart.won', 'https://apps.apple.com/kr/app/id427105187')">
         <span class="icon">🏦</span>
         <span class="name">우리은행</span>
-      </a>
-      <a class="bank-btn" href="hanabank://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.kebhana.hanapay')">
+      </button>
+      <button class="bank-btn" onclick="openApp('hanabank://', 'https://play.google.com/store/apps/details?id=com.kebhana.hanapay', 'https://apps.apple.com/kr/app/id1278913749')">
         <span class="icon">🏦</span>
         <span class="name">하나은행</span>
-      </a>
-      <a class="bank-btn" href="ibkbank://" onclick="return openApp(this, 'https://play.google.com/store/apps/details?id=com.ibk.neobanking')">
+      </button>
+      <button class="bank-btn" onclick="openApp('ibkbank://', 'https://play.google.com/store/apps/details?id=com.ibk.neobanking', 'https://apps.apple.com/kr/app/id506660773')">
         <span class="icon">🏦</span>
         <span class="name">기업은행</span>
-      </a>
+      </button>
     </div>
   </div>
 
@@ -350,19 +353,24 @@
       });
     })();
 
-    function openApp(el, fallbackUrl) {
-      const appUrl = el.href;
-      const start = Date.now();
+    function openApp(deepLink, androidUrl, iosUrl) {
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      const storeUrl = isIOS ? iosUrl : androidUrl;
 
-      // 딥링크 시도 후 앱이 없으면 스토어로 이동
+      // 앱이 열리면 blur 이벤트 발생 → fallback 취소
+      let appOpened = false;
+      const onBlur = () => { appOpened = true; };
+      window.addEventListener('blur', onBlur);
+
       setTimeout(() => {
-        if (Date.now() - start < 1800) {
-          window.location.href = fallbackUrl;
+        window.removeEventListener('blur', onBlur);
+        if (!appOpened) {
+          // 앱이 없으면 스토어로 이동
+          window.location.href = storeUrl;
         }
       }, 1500);
 
-      window.location.href = appUrl;
-      return false;
+      window.location.href = deepLink;
     }
   </script>
 </body>
