@@ -138,7 +138,15 @@
     }
 
     .bank-btn .icon {
-      font-size: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
       line-height: 1;
     }
 
@@ -147,6 +155,17 @@
       font-weight: 500;
       text-align: center;
     }
+
+    /* 은행별 브랜드 컬러 */
+    .icon-toss      { background: #0064FF; color: #fff; }
+    .icon-kakao     { background: #FEE500; color: #3C1E1E; }
+    .icon-naver     { background: #03C75A; color: #fff; }
+    .icon-shinhan   { background: #0046FF; color: #fff; }
+    .icon-kb        { background: #FFB800; color: #4A3000; }
+    .icon-nh        { background: #009B4D; color: #fff; }
+    .icon-woori     { background: #006EB9; color: #fff; }
+    .icon-hana      { background: #009490; color: #fff; }
+    .icon-ibk       { background: #006BFF; color: #fff; }
 
     /* ── 상품 가격표 ── */
     .price-list {
@@ -288,41 +307,41 @@
     <div class="bank-grid">
       <!-- 토스: 계좌번호 미리 입력된 송금 화면으로 이동 (bankCode 090 = 카카오뱅크) -->
       <button class="bank-btn" onclick="openApp('supertoss://send?bankCode=090&accountNo=3333368270469', 'https://play.google.com/store/apps/details?id=viva.republica.toss', 'https://apps.apple.com/kr/app/id839333328')">
-        <span class="icon">💙</span>
+        <span class="icon icon-toss">toss</span>
         <span class="name">토스</span>
       </button>
       <!-- 카카오페이: 송금 탭으로 이동 -->
       <button class="bank-btn" onclick="openApp('kakaopay://transfer', 'https://play.google.com/store/apps/details?id=com.kakao.talk', 'https://apps.apple.com/kr/app/id362057947')">
-        <span class="icon">💛</span>
+        <span class="icon icon-kakao">Pay</span>
         <span class="name">카카오페이</span>
       </button>
       <!-- 네이버페이 -->
       <button class="bank-btn" onclick="openApp('naversearchapp://pay', 'https://play.google.com/store/apps/details?id=com.nhn.android.search', 'https://apps.apple.com/kr/app/id393499958')">
-        <span class="icon">💚</span>
+        <span class="icon icon-naver">N Pay</span>
         <span class="name">네이버페이</span>
       </button>
       <button class="bank-btn" onclick="openApp('shinhan-sr-ansimclick://', 'https://play.google.com/store/apps/details?id=com.shinhan.sbanking', 'https://apps.apple.com/kr/app/id357484510')">
-        <span class="icon">🏦</span>
+        <span class="icon icon-shinhan">신한</span>
         <span class="name">신한은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('kb-starbanking://', 'https://play.google.com/store/apps/details?id=com.kbstar.kbbank', 'https://apps.apple.com/kr/app/id373742138')">
-        <span class="icon">🏦</span>
+        <span class="icon icon-kb">KB</span>
         <span class="name">국민은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('nhallonebanking://', 'https://play.google.com/store/apps/details?id=nh.smart.banking', 'https://apps.apple.com/kr/app/id1177889076')">
-        <span class="icon">🏦</span>
+        <span class="icon icon-nh">NH</span>
         <span class="name">농협은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('wooribank://', 'https://play.google.com/store/apps/details?id=com.wooribank.smart.won', 'https://apps.apple.com/kr/app/id427105187')">
-        <span class="icon">🏦</span>
+        <span class="icon icon-woori">우리</span>
         <span class="name">우리은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('hanabank://', 'https://play.google.com/store/apps/details?id=com.kebhana.hanapay', 'https://apps.apple.com/kr/app/id1278913749')">
-        <span class="icon">🏦</span>
+        <span class="icon icon-hana">하나</span>
         <span class="name">하나은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('ibkbank://', 'https://play.google.com/store/apps/details?id=com.ibk.neobanking', 'https://apps.apple.com/kr/app/id506660773')">
-        <span class="icon">🏦</span>
+        <span class="icon icon-ibk">IBK</span>
         <span class="name">기업은행</span>
       </button>
     </div>
