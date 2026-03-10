@@ -345,6 +345,9 @@
         <span class="name">기업은행</span>
       </button>
     </div>
+    <p style="font-size:12px;color:#8e8e93;text-align:center;margin-top:14px;line-height:1.6;">
+      앱 버튼을 누르면 계좌번호가 자동 복사됩니다<br>앱 열린 후 송금 화면에서 붙여넣기 하세요
+    </p>
   </div>
 
   <!-- ── 계좌 정보 카드 ── -->
@@ -436,25 +439,37 @@
     }
 
     function openApp(deepLink, androidUrl, iosUrl) {
-      // 토스 딥링크에 선택된 금액 추가
+      // 모든 은행 버튼 클릭 시 계좌번호 자동 복사 (앱에서 붙여넣기용)
+      const rawNumber = document.getElementById('accountNumber').textContent.replace(/-/g, '').trim();
+      navigator.clipboard.writeText(rawNumber).catch(() => {
+        const el = document.createElement('textarea');
+        el.value = rawNumber;
+        el.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      });
+
+      // 토스: 선택된 금액 추가
       if (deepLink.startsWith('supertoss://') && selectedAmount > 0) {
         deepLink += '&amount=' + selectedAmount;
       }
+
       const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       const storeUrl = isIOS ? iosUrl : androidUrl;
 
-      // 앱이 열리면 blur 이벤트 발생 → fallback 취소
-      let appOpened = false;
-      const onBlur = () => { appOpened = true; };
-      window.addEventListener('blur', onBlur);
+      // 앱 전환 감지: visibilitychange가 blur보다 신뢰도 높음
+      const timer = setTimeout(() => {
+        window.location.href = storeUrl;
+      }, 2000);
 
-      setTimeout(() => {
-        window.removeEventListener('blur', onBlur);
-        if (!appOpened) {
-          // 앱이 없으면 스토어로 이동
-          window.location.href = storeUrl;
+      document.addEventListener('visibilitychange', function onHide() {
+        if (document.hidden) {
+          clearTimeout(timer);
+          document.removeEventListener('visibilitychange', onHide);
         }
-      }, 1500);
+      });
 
       window.location.href = deepLink;
     }
