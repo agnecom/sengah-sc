@@ -175,6 +175,26 @@
       color: #007aff;
     }
 
+    /* ── QR 코드 ── */
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #qrcode canvas,
+    #qrcode img {
+      border-radius: 8px;
+    }
+
+    .qr-url {
+      font-size: 11px;
+      color: #8e8e93;
+      word-break: break-all;
+      text-align: center;
+    }
+
     /* ── 안내 문구 ── */
     .notice {
       font-size: 13px;
@@ -273,8 +293,18 @@
     </ul>
   </div>
 
+  <!-- ── QR 코드 카드 ── -->
+  <div class="card">
+    <div class="card-title">QR 코드로 이 페이지 공유</div>
+    <div class="qr-wrap">
+      <div id="qrcode"></div>
+      <p class="qr-url" id="qrUrl"></p>
+    </div>
+  </div>
+
   <p class="notice">이체 완료 후 판매자에게 확인해주세요 😊<br>현장 교환은 영수증(이체 화면) 제시 부탁드립니다.</p>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     function copyAccount() {
       const number = document.getElementById('accountNumber').textContent.trim();
@@ -305,6 +335,20 @@
         }, 2000);
       });
     }
+
+    // QR 코드 생성 (현재 페이지 URL)
+    (function() {
+      const url = window.location.href;
+      document.getElementById('qrUrl').textContent = url;
+      new QRCode(document.getElementById('qrcode'), {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#1c1c1e',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    })();
 
     function openApp(el, fallbackUrl) {
       const appUrl = el.href;
