@@ -148,6 +148,18 @@
       font-weight: 800;
       letter-spacing: -0.5px;
       line-height: 1;
+      overflow: hidden;
+    }
+
+    .icon-img {
+      background: #fff;
+      border: 1px solid #e5e5ea;
+    }
+
+    .icon-img img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
     }
 
     .bank-btn .name {
@@ -321,27 +333,27 @@
         <span class="name">네이버페이</span>
       </button>
       <button class="bank-btn" onclick="openApp('shinhan-sr-ansimclick://', 'https://play.google.com/store/apps/details?id=com.shinhan.sbanking', 'https://apps.apple.com/kr/app/id357484510')">
-        <span class="icon icon-shinhan">신한</span>
+        <span class="icon icon-img"><img src="images/shinhan.png" alt="신한" /></span>
         <span class="name">신한은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('kb-starbanking://', 'https://play.google.com/store/apps/details?id=com.kbstar.kbbank', 'https://apps.apple.com/kr/app/id373742138')">
-        <span class="icon icon-kb">KB</span>
+        <span class="icon icon-img"><img src="images/kb.png" alt="KB" /></span>
         <span class="name">국민은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('nhallonebanking://', 'https://play.google.com/store/apps/details?id=nh.smart.banking', 'https://apps.apple.com/kr/app/id1177889076')">
-        <span class="icon icon-nh">NH</span>
+        <span class="icon icon-img"><img src="images/nh.png" alt="NH" /></span>
         <span class="name">농협은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('wooribank://', 'https://play.google.com/store/apps/details?id=com.wooribank.smart.won', 'https://apps.apple.com/kr/app/id427105187')">
-        <span class="icon icon-woori">우리</span>
+        <span class="icon icon-img"><img src="images/woori.png" alt="우리" /></span>
         <span class="name">우리은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('hanabank://', 'https://play.google.com/store/apps/details?id=com.kebhana.hanapay', 'https://apps.apple.com/kr/app/id1278913749')">
-        <span class="icon icon-hana">하나</span>
+        <span class="icon icon-img"><img src="images/hana.png" alt="하나" /></span>
         <span class="name">하나은행</span>
       </button>
       <button class="bank-btn" onclick="openApp('ibkbank://', 'https://play.google.com/store/apps/details?id=com.ibk.neobanking', 'https://apps.apple.com/kr/app/id506660773')">
-        <span class="icon icon-ibk">IBK</span>
+        <span class="icon icon-img"><img src="images/ibk.png" alt="IBK" /></span>
         <span class="name">기업은행</span>
       </button>
     </div>
