@@ -318,41 +318,41 @@
     <div class="card-title">은행 앱으로 바로 이체</div>
     <div class="bank-grid">
       <!-- 토스: 계좌번호 미리 입력된 송금 화면으로 이동 (bankCode 090 = 카카오뱅크) -->
-      <button class="bank-btn" onclick="openApp('supertoss://send?bankCode=090&accountNo=3333368270469', 'https://play.google.com/store/apps/details?id=viva.republica.toss', 'https://apps.apple.com/kr/app/id839333328')">
+      <button class="bank-btn" onclick="openApp('supertoss://send?bankCode=090&accountNo=3333368270469')">
         <span class="icon icon-toss">toss</span>
         <span class="name">토스</span>
       </button>
       <!-- 카카오페이: 송금 탭으로 이동 -->
-      <button class="bank-btn" onclick="openApp('kakaopay://transfer', 'https://play.google.com/store/apps/details?id=com.kakao.talk', 'https://apps.apple.com/kr/app/id362057947')">
+      <button class="bank-btn" onclick="openApp('kakaopay://transfer')">
         <span class="icon icon-kakao">Pay</span>
         <span class="name">카카오페이</span>
       </button>
       <!-- 네이버페이 -->
-      <button class="bank-btn" onclick="openApp('naversearchapp://pay', 'https://play.google.com/store/apps/details?id=com.nhn.android.search', 'https://apps.apple.com/kr/app/id393499958')">
+      <button class="bank-btn" onclick="openApp('naversearchapp://pay')">
         <span class="icon icon-naver">N Pay</span>
         <span class="name">네이버페이</span>
       </button>
-      <button class="bank-btn" onclick="openApp('shinhanbank://', 'https://play.google.com/store/apps/details?id=com.shinhan.sbanking', 'https://apps.apple.com/kr/app/id357484510')">
+      <button class="bank-btn" onclick="openApp('shinhanbank://')">
         <span class="icon icon-img"><img src="images/shinhan.png" alt="신한" /></span>
         <span class="name">신한은행</span>
       </button>
-      <button class="bank-btn" onclick="openApp('kb-starbanking://', 'https://play.google.com/store/apps/details?id=com.kbstar.kbbank', 'https://apps.apple.com/kr/app/id373742138')">
+      <button class="bank-btn" onclick="openApp('kb-starbanking://')">
         <span class="icon icon-img"><img src="images/kb.png" alt="KB" /></span>
         <span class="name">국민은행</span>
       </button>
-      <button class="bank-btn" onclick="openApp('nhallonebanking://', 'https://play.google.com/store/apps/details?id=nh.smart.banking', 'https://apps.apple.com/kr/app/id1177889076')">
+      <button class="bank-btn" onclick="openApp('nhallonebanking://')">
         <span class="icon icon-img"><img src="images/nh.png" alt="NH" /></span>
         <span class="name">농협은행</span>
       </button>
-      <button class="bank-btn" onclick="openApp('wooribank://', 'https://play.google.com/store/apps/details?id=com.wooribank.smart.won', 'https://apps.apple.com/kr/app/id427105187')">
+      <button class="bank-btn" onclick="openApp('wooribank://')">
         <span class="icon icon-img"><img src="images/woori.png" alt="우리" /></span>
         <span class="name">우리은행</span>
       </button>
-      <button class="bank-btn" onclick="openApp('hanabank://', 'https://play.google.com/store/apps/details?id=com.kebhana.hanapay', 'https://apps.apple.com/kr/app/id1278913749')">
+      <button class="bank-btn" onclick="openApp('hanabank://')">
         <span class="icon icon-img"><img src="images/hana.png" alt="하나" /></span>
         <span class="name">하나은행</span>
       </button>
-      <button class="bank-btn" onclick="openApp('ibkbank://', 'https://play.google.com/store/apps/details?id=com.ibk.neobanking', 'https://apps.apple.com/kr/app/id506660773')">
+      <button class="bank-btn" onclick="openApp('ibkbank://')">
         <span class="icon icon-img"><img src="images/ibk.png" alt="IBK" /></span>
         <span class="name">기업은행</span>
       </button>
@@ -450,31 +450,16 @@
       document.getElementById('amountBar').style.display = 'none';
     }
 
-    function openApp(deepLink, androidUrl, iosUrl) {
+    function openApp(deepLink) {
       // 토스: 선택된 금액 추가
       if (deepLink.startsWith('supertoss://') && selectedAmount > 0) {
         deepLink += '&amount=' + selectedAmount;
       }
 
-      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-      const storeUrl = isIOS ? iosUrl : androidUrl;
-
-      // ① 딥링크 즉시 실행 — iOS는 사용자 제스처 컨텍스트 안에서 동기 실행 필수
+      // ① 딥링크 즉시 실행 (iOS 사용자 제스처 컨텍스트 내 동기 실행)
       window.location.href = deepLink;
 
-      // ② 앱이 없으면 스토어로 (앱이 열리면 visibilitychange로 타이머 취소)
-      const timer = setTimeout(() => {
-        window.location.href = storeUrl;
-      }, 2000);
-
-      document.addEventListener('visibilitychange', function onHide() {
-        if (document.hidden) {
-          clearTimeout(timer);
-          document.removeEventListener('visibilitychange', onHide);
-        }
-      });
-
-      // ③ 계좌번호 복사 (딥링크 실행 후 비동기로)
+      // ② 계좌번호 복사 — 앱 열린 후 붙여넣기용
       const rawNumber = document.getElementById('accountNumber').textContent.replace(/-/g, '').trim();
       navigator.clipboard.writeText(rawNumber).catch(() => {
         const el = document.createElement('textarea');
