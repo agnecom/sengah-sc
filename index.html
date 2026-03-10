@@ -451,18 +451,6 @@
     }
 
     function openApp(deepLink, androidUrl, iosUrl) {
-      // 모든 은행 버튼 클릭 시 계좌번호 자동 복사 (앱에서 붙여넣기용)
-      const rawNumber = document.getElementById('accountNumber').textContent.replace(/-/g, '').trim();
-      navigator.clipboard.writeText(rawNumber).catch(() => {
-        const el = document.createElement('textarea');
-        el.value = rawNumber;
-        el.style.cssText = 'position:fixed;opacity:0';
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-      });
-
       // 토스: 선택된 금액 추가
       if (deepLink.startsWith('supertoss://') && selectedAmount > 0) {
         deepLink += '&amount=' + selectedAmount;
@@ -471,7 +459,10 @@
       const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       const storeUrl = isIOS ? iosUrl : androidUrl;
 
-      // 앱 전환 감지: visibilitychange가 blur보다 신뢰도 높음
+      // ① 딥링크 즉시 실행 — iOS는 사용자 제스처 컨텍스트 안에서 동기 실행 필수
+      window.location.href = deepLink;
+
+      // ② 앱이 없으면 스토어로 (앱이 열리면 visibilitychange로 타이머 취소)
       const timer = setTimeout(() => {
         window.location.href = storeUrl;
       }, 2000);
@@ -483,7 +474,17 @@
         }
       });
 
-      window.location.href = deepLink;
+      // ③ 계좌번호 복사 (딥링크 실행 후 비동기로)
+      const rawNumber = document.getElementById('accountNumber').textContent.replace(/-/g, '').trim();
+      navigator.clipboard.writeText(rawNumber).catch(() => {
+        const el = document.createElement('textarea');
+        el.value = rawNumber;
+        el.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      });
     }
   </script>
 </body>
