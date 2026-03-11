@@ -390,20 +390,6 @@
       });
     }
 
-    // QR 코드 생성 (현재 페이지 URL)
-    (function() {
-      const url = window.location.href;
-      document.getElementById('qrUrl').textContent = url;
-      new QRCode(document.getElementById('qrcode'), {
-        text: url,
-        width: 180,
-        height: 180,
-        colorDark: '#1c1c1e',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
-      });
-    })();
-
     let selectedAmount = 0;
 
     function selectAmount(el) {
