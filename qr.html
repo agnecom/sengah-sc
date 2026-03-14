@@ -10,6 +10,10 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f5f5f7;
+      background-image: url('images/KakaoTalk_Photo_2026-03-15-08-31-28.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -17,6 +21,20 @@
       justify-content: center;
       padding: 40px 24px;
       color: #1c1c1e;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(2px);
+      z-index: 0;
+    }
+
+    h1, .subtitle, .qr-card {
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
