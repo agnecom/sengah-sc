@@ -179,75 +179,6 @@
     .icon-hana      { background: #009490; color: #fff; }
     .icon-ibk       { background: #006BFF; color: #fff; }
 
-    /* ── 상품 가격표 ── */
-    .price-list {
-      list-style: none;
-    }
-
-    .price-list li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #f2f2f7;
-      font-size: 15px;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.1s;
-    }
-
-    .price-list li:last-child {
-      border-bottom: none;
-    }
-
-    .price-list li:active {
-      background: #f2f2f7;
-    }
-
-    .price-list li.selected {
-      background: #e8f0fe;
-    }
-
-    .price-list .item-name {
-      color: #1c1c1e;
-    }
-
-    .price-list .item-price {
-      font-weight: 700;
-      color: #007aff;
-    }
-
-    /* ── 선택 금액 표시 ── */
-    .amount-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #f2f2f7;
-      border-radius: 12px;
-      padding: 10px 14px;
-      margin-top: 12px;
-      font-size: 14px;
-    }
-
-    .amount-bar .label {
-      color: #6e6e73;
-    }
-
-    .amount-bar .value {
-      font-weight: 700;
-      font-size: 16px;
-      color: #1c1c1e;
-    }
-
-    .amount-bar .reset-btn {
-      background: none;
-      border: none;
-      color: #8e8e93;
-      font-size: 13px;
-      cursor: pointer;
-      padding: 2px 6px;
-    }
-
     /* ── 안내 문구 ── */
     .notice {
       font-size: 13px;
@@ -263,35 +194,6 @@
   <!-- ✏️ 판매자 이름/이벤트명을 수정하세요 -->
   <h1>여길 바라x3 밤</h1>
   <p class="subtitle">서울 코믹스 2026</p>
-
-  <!-- ── 상품 가격표 ── -->
-  <div class="card">
-    <div class="card-title">상품 가격표 (탭하면 금액 선택)</div>
-    <!-- ✏️ 상품 목록과 가격을 수정하세요 (data-price는 원 단위 숫자) -->
-    <ul class="price-list" id="priceList">
-      <li data-price="5000" onclick="selectAmount(this)">
-        <span class="item-name">키링</span>
-        <span class="item-price">5,000원</span>
-      </li>
-      <li data-price="2000" onclick="selectAmount(this)">
-        <span class="item-name">포토카드 (1장)</span>
-        <span class="item-price">2,000원</span>
-      </li>
-      <li data-price="5000" onclick="selectAmount(this)">
-        <span class="item-name">포토카드 (3장 세트)</span>
-        <span class="item-price">5,000원</span>
-      </li>
-      <li data-price="8000" onclick="selectAmount(this)">
-        <span class="item-name">브로마이드</span>
-        <span class="item-price">8,000원</span>
-      </li>
-    </ul>
-    <div class="amount-bar" id="amountBar" style="display:none">
-      <span class="label">이체 금액</span>
-      <span class="value" id="amountDisplay"></span>
-      <button class="reset-btn" onclick="resetAmount()">취소</button>
-    </div>
-  </div>
 
   <!-- ── 은행 앱 바로가기 ── -->
   <div class="card">
@@ -396,28 +298,7 @@
       });
     }
 
-    let selectedAmount = 0;
-
-    function selectAmount(el) {
-      document.querySelectorAll('#priceList li').forEach(li => li.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedAmount = parseInt(el.dataset.price, 10);
-      document.getElementById('amountDisplay').textContent = selectedAmount.toLocaleString('ko-KR') + '원';
-      document.getElementById('amountBar').style.display = 'flex';
-    }
-
-    function resetAmount() {
-      selectedAmount = 0;
-      document.querySelectorAll('#priceList li').forEach(li => li.classList.remove('selected'));
-      document.getElementById('amountBar').style.display = 'none';
-    }
-
     function openApp(deepLink) {
-      // 토스: 선택된 금액 추가
-      if (deepLink.startsWith('supertoss://') && selectedAmount > 0) {
-        deepLink += '&amount=' + selectedAmount;
-      }
-
       // ① 딥링크 즉시 실행 (iOS 사용자 제스처 컨텍스트 내 동기 실행)
       window.location.href = deepLink;
 
