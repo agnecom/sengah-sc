@@ -108,10 +108,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    // index.html URL을 QR로 생성
-    const pageUrl = window.location.href.replace('qr.html', 'index.html');
     new QRCode(document.getElementById('qrcode'), {
-      text: pageUrl,
+      text: 'https://agnecom.github.io/sengah-sc/index.html',
       width: 220,
       height: 220,
       colorDark: '#1c1c1e',
