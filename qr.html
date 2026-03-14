@@ -65,18 +65,29 @@
       max-width: 240px;
     }
 
-    .goto-btn {
-      display: inline-block;
-      margin-top: 8px;
-      background: #007aff;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 28px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
+    .account-info {
+      text-align: center;
+      border-top: 1px solid #f2f2f7;
+      padding-top: 16px;
+      width: 100%;
+    }
+
+    .account-bank {
+      font-size: 13px;
+      color: #6e6e73;
+      margin-bottom: 4px;
+    }
+
+    .account-number {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .account-holder {
+      font-size: 14px;
+      color: #6e6e73;
     }
   </style>
 </head>
@@ -88,15 +99,17 @@
   <div class="qr-card">
     <div class="qr-label">QR 코드를 스캔해 결제 페이지로</div>
     <div id="qrcode"></div>
-    <p class="qr-url" id="qrUrl"></p>
-    <a class="goto-btn" href="index.html">결제 페이지 바로가기</a>
+    <div class="account-info">
+      <div class="account-bank">카카오뱅크</div>
+      <div class="account-number">3333-36-8270469</div>
+      <div class="account-holder">박*아</div>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     // index.html URL을 QR로 생성
     const pageUrl = window.location.href.replace('qr.html', 'index.html');
-    document.getElementById('qrUrl').textContent = pageUrl;
     new QRCode(document.getElementById('qrcode'), {
       text: pageUrl,
       width: 220,
